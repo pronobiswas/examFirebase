@@ -5,52 +5,72 @@ import { getDatabase, ref, set } from "firebase/database";
 
 function App() {
 
-  let [text , setText] = useState({
+  let [person , setPerson] = useState({
     fullname :"",
-    age : "",
-    male : "",
-    female : "",
-    design : "",
-    development : ""
+    roll : "" , 
+    selectOption : ""
 
   });
-  let [myarray, setMyarray] = useState([]);
+  let [personDetail, setPersonDetail] = useState([]);
   const db = getDatabase();
 
 
   let handleInput = (e)=>{
-    setText(e.target.value);
-    
+    let {name , value} = e.target;
+    setPerson({...person , [name]  : value})
   };
+
   let handleSubmit = ()=>{
-    console.log(text);
-    console.log(text.fullname);
+    let personDetailList = [...personDetail];
+    personDetailList.push(person)
+    setPersonDetail(personDetailList)
+    
+
     set(ref(db, 'users'), {
-      fullname : text
+    nam : personDetail
     });
+
+    console.log(personDetailList);
+    console.log(personDetail);
   };
 
 
   return (
     <>
-      <h1>exam win firebase</h1>
-      <input onChange={handleInput} type="text" name='fullname' placeholder='enter youyr name'/><br />
-      <input onChange={handleInput} type="number" name='age' placeholder='enter your age'/>
-      <br />
-      <h4>gender</h4>
-      <label htmlFor="male">male</label>
-      <input onChange={handleInput} type="radio" id='male'  name ='gender'/>
 
-      <label htmlFor="female">female</label>
-      <input onChange={handleInput} type="radio" id='female' name='gender'/>
-      <br />
-      <h4>knoladge</h4>
-      <label htmlFor="">web design</label>
-      <input onChange={handleInput} type="checkbox" name='design'/><br />
-      <label htmlFor="">web development</label>
-      <input onChange={handleInput} type="checkbox" name='development'/>
-      <br />
-      <button onClick={handleSubmit}>submit</button>
+      <div className="aForm">
+      <h1>exam win firebase</h1>
+
+        <label htmlFor="Nam">Name : </label>
+        <input onChange={handleInput} type="text" name='fullname' placeholder='enter youyr name'/>
+        <br />
+        <label htmlFor="maillAddress">email  : </label>
+        <input onChange={handleInput} type="email" placeholder='Enter your mail' id='maillAddress' name='yourMail'/>
+        <br />
+        <label htmlFor="roll">Roll : </label>
+        <input onChange={handleInput} type="number" placeholder='Enter your roll number' name='roll' id='roll'/>
+        <select onChange={handleInput} name="selectOption" id="selectOption">
+          <option value="value1">option01</option>
+          <option value="value2">option02</option>
+          <option value="value3">option03</option>
+          <option value="value4">option04</option>
+        </select>
+        
+        <h4>Intearest In</h4>
+
+        <label htmlFor="design">web design</label>
+        <input type="checkbox" name='design' id='design'/>
+        <br />
+        <label htmlFor="development">web development</label>
+        <input type="checkbox" name='development'/>
+        <br />
+        <label htmlFor="">design For develeopment</label>
+        <input type="checkbox" name='development' id=''/>
+        <br />
+
+
+        <button onClick={handleSubmit}>submit</button>
+      </div>
     </>
   )
 }
