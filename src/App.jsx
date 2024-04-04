@@ -20,8 +20,9 @@ function App() {
   let handleInput = (e)=>{
     let {name , value ,checked} = e.target;
     setPerson({...person , [name]  : value});
+
     if(checked){
-     setCheckBoxValues(pre => [...pre ,  value])
+     setCheckBoxValues(pre => [pre ,  value])
    }else{
     return [...checkBoxValues.filter(skill => skill == value)]
    }
